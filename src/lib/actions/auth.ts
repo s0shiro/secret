@@ -45,6 +45,16 @@ export async function login(formData: FormData): Promise<AuthResult> {
   }
 
   const { email, password } = parsed.data;
+
+  // Check if user exists in our database
+  const existingUser = await db.query.users.findFirst({
+    where: eq(users.email, email.toLowerCase()),
+  });
+
+  if (!existingUser) {
+    return { error: "No account found with this email address" };
+  }
+
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
