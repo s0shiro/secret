@@ -48,11 +48,28 @@ export const friendships = pgTable("friendships", {
 });
 
 // Type exports for use in application
+
+// User types
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+export type UserUpdate = Partial<Omit<NewUser, "id" | "createdAt">>;
 
+// Secret types
 export type Secret = typeof secrets.$inferSelect;
 export type NewSecret = typeof secrets.$inferInsert;
+export type SecretUpdate = Partial<Pick<NewSecret, "message">>;
 
+// Friendship types
 export type Friendship = typeof friendships.$inferSelect;
 export type NewFriendship = typeof friendships.$inferInsert;
+export type FriendshipStatus = (typeof friendshipStatusEnum.enumValues)[number];
+
+// Composite types for queries with joins
+export type UserWithSecret = User & { secret: Secret | null };
+export type FriendshipWithUser = {
+  friendship: Friendship;
+  friend: User;
+};
+export type FriendshipWithUserAndSecret = FriendshipWithUser & {
+  secret: Secret | null;
+};
