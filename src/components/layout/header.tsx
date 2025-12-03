@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOut } from "@/src/lib/actions/auth";
+import { ThemeToggle } from "./theme-toggle";
 
 interface HeaderProps {
   email: string;
@@ -35,6 +36,7 @@ export function Header({ email }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <span className="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">
             {email}
           </span>
